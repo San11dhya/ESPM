@@ -18,7 +18,19 @@
         $email = $inputData['email'];
         $designation = $inputData['designation'];
         $department_id = $inputData['department_id'];
-
+        $unique="SELECT * from  employee where email='$email'";
+        $result1=mysqli_query($conn,$unique);
+        // echo $result1;die;
+        if(mysqli_num_rows(($result1))>0)
+        {
+            $data=[
+                'status'=>404,
+                'message'=>'The email already exist.try different email.'
+            ];
+            header ("HTTP/1.0 404 Not Found");
+            echo json_encode($data);
+            exit;
+        }
 
         $query = "Select * from department1 where department_id = $department_id";
         $result = mysqli_query($conn, $query);
@@ -62,4 +74,4 @@
         echo json_encode($data);
     }
 
-?>
+    
